@@ -1,0 +1,24 @@
+{
+  "name": "ft-backend",
+  "version": "1.0.0",
+  "description": "REST API for an ecommerce website",
+  "main": "index.js",
+  "scripts": {
+    "migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev",
+    "seed": "dotenv -e .env.development -- node src/seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Beckwith",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.14.2",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.11.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.11.0"
+  },
+  "type": "module"
+}
