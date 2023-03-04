@@ -1,0 +1,14 @@
+categories:
+  - name: Boba Tea
+    position: 1
+  - name: Burgers
+    position: 2
+
+products:
+  # Boba Tea
+  # -------
+  - name: Bamboo Charcoal Boba Milk Tea
+    price: 80
+    category: Boba Tea
+    image: first_time_charcoal_boba_milktea.webp
+    is_original: true
