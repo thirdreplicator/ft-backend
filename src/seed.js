@@ -52,7 +52,7 @@ async function main() {
     count += 1
     // if (i > 1) { return undefined }
     console.log("Working on `"  + prod.name  + "`, '" + prod.category + "'")
-    let query = 'INSERT INTO "Product" (name, price, image, "categoryId", is_original) VALUES($1, $2, $3, $4, $5)'
+    let query = 'INSERT INTO "Product" (name, price, image, "category_id", is_original) VALUES($1, $2, $3, $4, $5)'
     let category_id = categories[prod.category]
     if (category_id == undefined) {
       throw new Error(`Could not find a category id for product ${JSON.stringify(prod.name)} category ${JSON.stringify(prod.category)} in ${JSON.stringify(Object.keys(categories))}`) }

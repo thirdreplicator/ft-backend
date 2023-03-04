@@ -4,3 +4,4 @@ node_modules/
 data/products/
 prisma/migrations/
 *.DS_Store
+*.swp

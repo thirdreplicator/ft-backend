@@ -11,6 +11,23 @@ datasource db {
 }
 
 model Product {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id           Int       @id @default(autoincrement())
+  name         String    @unique
+  price        Decimal
+  image        String?
+  is_original  Boolean   @default(false)
+  category     Category? @relation(fields: [category_id], references: [id])
+  category_id  Int?
+
+  @@index(fields: [category_id])
+  @@index(fields: [is_original])
 }
+
+model Category {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  position Int    @default(-1)
+
+  products Product[]
+}
+
