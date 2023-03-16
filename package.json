@@ -6,8 +6,8 @@
   "scripts": {
     "migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev",
     "migrate:prod": "dotenv -e .env.production -- npx prisma migrate dev",
-    "server:dev": "dotenv -e .env.development -- nodemon src/backend.js",
-    "server:prod": "dotenv -e .env.production -- node src/backend.js",
+    "server:dev": "dotenv -e .env.development -- nodemon src/server.js",
+    "server:prod": "dotenv -e .env.production -- node src/server.js",
     "seed:dev": "dotenv -e .env.development -- node src/seed.js",
     "seed:prod": "dotenv -e .env.production -- node src/seed.js"
   },
