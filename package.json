@@ -10,7 +10,8 @@
     "server:prod": "dotenv -e .env.production -- node src/server.js",
     "seed:dev": "dotenv -e .env.development -- node src/seed.js",
     "seed:prod": "dotenv -e .env.production -- node src/seed.js",
-    "seed:options:dev": "dotenv -e .env.development -- node src/seed_options.js"
+    "seed:options:dev": "dotenv -e .env.development -- node src/seed_options.js",
+    "seed:options:prod": "dotenv -e .env.production -- node src/seed_options.js"
   },
   "author": "David Beckwith",
   "license": "MIT",

@@ -2,16 +2,7 @@
 import fs from 'fs'
 import yaml from 'js-yaml'
 import pg from 'pg'
-const pool = new pg.Pool({
-  "host": "127.0.0.1",
-  "port": 5433,
-  "user": "postgres",
-  "password": "",
-  "database": "firsttime_dev",
-  "max": 1,
-  "idleTimeoutMillis": 0,
-  "connectionTimeoutMillis": 0,
-})
+import { pool } from './connect.js'
 
 async function main() {
   /*
