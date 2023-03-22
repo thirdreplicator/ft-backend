@@ -11,13 +11,14 @@ datasource db {
 }
 
 model Product {
-  id           Int       @id @default(autoincrement())
-  name         String    @unique
-  price        Decimal
-  image        String?
-  is_original  Boolean   @default(false)
-  category     Category? @relation(fields: [category_id], references: [id])
-  category_id  Int?
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  price       Decimal
+  image       String?
+  is_original Boolean   @default(false)
+  category    Category? @relation(fields: [category_id], references: [id])
+  category_id Int?
+  Option      Option[]
 
   @@index(fields: [category_id])
   @@index(fields: [is_original])
@@ -31,3 +32,17 @@ model Category {
   products Product[]
 }
 
+model Option {
+  id             Int      @id @default(autoincrement())
+  name           String
+  type           String
+  price_modifier Decimal
+  product        Product? @relation(fields: [product_id], references: [id])
+  product_id     Int?
+  is_deleted     Boolean  @default(false)
+  is_default     Boolean  @default(false)
+  // To add this column run "add_created_at_to_option_table.sql"
+  // created_at     BigInt default(extract(epoch from now()))
+
+  @@index(fields: [product_id])
+}
