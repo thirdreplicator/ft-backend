@@ -28,3 +28,17 @@ export const get_categories = (req, resp) => {
     resp.status(200).json(results.rows)
   })
 }
+
+export const get_options = (req, resp) => {
+  pool.query('SELECT * FROM "Option"', (error, results) => {
+    if (error) { throw error }
+    let modify = (obj) =>  {
+      const { price_modifier } = obj
+      let new_row = {  ...obj, price_modifier: parseInt(price_modifier) }
+      delete new_row.created_at
+      delete new_row.is_deleted
+      return new_row
+    }
+    resp.status(200).json(results.rows.map(modify))
+  })
+}
