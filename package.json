@@ -4,8 +4,6 @@
   "description": "REST API for an ecommerce website",
   "main": "index.js",
   "scripts": {
-    "migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev",
-    "migrate:prod": "dotenv -e .env.production -- npx prisma migrate dev",
     "server:dev": "dotenv -e .env.development -- nodemon src/server.js",
     "server:prod": "dotenv -e .env.production -- node src/server.js",
     "seed:dev": "dotenv -e .env.development -- node src/seed.js",
@@ -17,11 +15,9 @@
   "license": "MIT",
   "devDependencies": {
     "js-yaml": "^4.1.0",
-    "nodemon": "^2.0.21",
-    "prisma": "^4.11.0"
+    "nodemon": "^2.0.21"
   },
   "dependencies": {
-    "@prisma/client": "^4.11.0",
     "dotenv-cli": "^7.0.0",
     "express": "^4.18.2",
     "pg": "^8.9.0"

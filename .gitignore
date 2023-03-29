@@ -4,7 +4,6 @@ node_modules/
 .env.development
 .env.production
 data/products/
-prisma/migrations/
 *.DS_Store
 *.swp
 backups/
