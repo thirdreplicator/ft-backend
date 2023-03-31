@@ -17,7 +17,7 @@ export const create_user = async (req, res) => {
   } catch (e) {
     await client.query('ROLLBACK');
     console.error(e);
-    res.status(500).json({ message: 'Error registering user' });
+    res.status(500).json({ message: e.message });
   } finally {
     client.release();
   }
