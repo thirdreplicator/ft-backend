@@ -4,7 +4,7 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "hashed_password" TEXT NOT NULL,
-    "phone_number" TEXT NOT NULL,
+    "phone_number" VARCHAR(20) NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

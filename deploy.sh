@@ -6,5 +6,5 @@ pg_dump -U postgres -p 5432 firsttime_production > /tmp/firsttime_production_`dd
 exit
 cp /tmp/firsttime_production*.sql ./backups
 npm run migrate:prod
-psql -U postgres -p 5432 firsttime_production < prisma/add_created_at_to_option_table.sql
+psql -U postgres -p 5432 firsttime_production < migrations/04_create_users.sql
 npm run seed:options:prod
