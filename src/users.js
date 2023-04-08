@@ -5,7 +5,9 @@ import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 
 const SIXTY_DAYS = 60 * 24 * 60 * 60
-const redisClient = createClient();
+const redisClient = createClient({socket: {
+	host: "127.0.0.1"
+}});
 redisClient.on('error', err => console.log('Redis Client Error', err));
 await redisClient.connect();
 redisClient.select(11)
