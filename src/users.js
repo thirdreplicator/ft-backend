@@ -76,11 +76,9 @@ export const signin = async (req, res) => {
   const { email, password } = req.body
   
 
-  const user = await lookupUser(email)
+  const user = await lookupUser(res, email)
   if (user == null) { return }
 
-
-  
   // Check if password matches.
   try {
     if (await bcrypt.compare(password, user.hashed_password)) {
@@ -96,7 +94,7 @@ export const signin = async (req, res) => {
   }
 }
 
-const lookupUser = async (email) => {
+const lookupUser = async (res, email) => {
   const client = await pool.connect();
   const query = {
     name: 'fetch-user', // Make this a postgres cached query.
@@ -107,7 +105,7 @@ const lookupUser = async (email) => {
     const result = await client.query(query)
     const user = result.rows[0]
     if (!user) {
-      res.status(401).send({message: e.message })
+      res.status(401).send({message: 'Email or password does not match.' })
     } else {
       return user
     }
