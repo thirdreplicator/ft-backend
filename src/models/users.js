@@ -1,20 +1,11 @@
-import { pool } from './connect.js'
-import { createClient } from 'redis'; // For storing sessions.
+import { pgPool, redisClient, SIXTY_DAYS } from '../connect.js'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 
-const SIXTY_DAYS = 60 * 24 * 60 * 60
-const redisClient = createClient({socket: {
-	host: "127.0.0.1"
-}});
-redisClient.on('error', err => console.log('Redis Client Error', err));
-await redisClient.connect();
-redisClient.select(11)
-
 export const create_user = async (req, res) => {
   const { name, email, password, phone_number } = req.body;
-  const client = await pool.connect();
+  const client = await pgPool.connect();
   const saltRounds = 10
 
   try {
@@ -32,6 +23,40 @@ export const create_user = async (req, res) => {
   } finally {
     client.release();
   }
+}
+
+export const signin = async (req, res) => {
+  
+  const { email, password } = req.body
+
+  const user = await lookupUser(res, email)
+  if (user == null) { return }
+
+  // Check if password matches.
+  try {
+    if (await bcrypt.compare(password, user.hashed_password)) {
+      // Correct  password. Return userId, user's name, authorization token and refresh token.
+      const loginInfo = collateLoginInfo(res, user.id, user.name)
+      res.status(200).send({message: 'Successfully logged in!', loginInfo})
+    } else {
+      // Wrong password.
+      res.status(401).send({message: 'The password or email provided does not match our records.' })
+    }
+  } catch(e) {
+    res.status(500).send({ message: e.message })
+  }
+}
+
+export const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403)
+    req.user = user
+    next()
+  })
 }
 
 const collateLoginInfo = (res, userId, name) => {
@@ -71,31 +96,8 @@ const  makeJwtToken = (userId) => {
   return jwt.sign(info, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60d'})
 }
 
-export const signin = async (req, res) => {
-  
-  const { email, password } = req.body
-  
-
-  const user = await lookupUser(res, email)
-  if (user == null) { return }
-
-  // Check if password matches.
-  try {
-    if (await bcrypt.compare(password, user.hashed_password)) {
-      // Correct  password. Return userId, user's name, authorization token and refresh token.
-      const loginInfo = collateLoginInfo(res, user.id, user.name)
-      res.status(200).send({message: 'Successfully logged in!', loginInfo})
-    } else {
-      // Wrong password.
-      res.status(401).send({message: 'The password or email provided does not match our records.' })
-    }
-  } catch(e) {
-    res.status(500).send({ message: e.message })
-  }
-}
-
 const lookupUser = async (res, email) => {
-  const client = await pool.connect();
+  const client = await pgPool.connect();
   const query = {
     name: 'fetch-user', // Make this a postgres cached query.
     text: 'SELECT * FROM  "User" WHERE email  = $1',
@@ -116,16 +118,4 @@ const lookupUser = async (res, email) => {
     client.release()
   }
 }
-/* Middleware */
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-  if (token == null) return res.sendStatus(401)
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403)
-    req.user = user
-    next()
-  })
-}

@@ -22,7 +22,8 @@ ALTER TABLE "Order" ADD CONSTRAINT "Order_pkey" PRIMARY KEY ("id");
 ALTER TABLE "Order" DROP CONSTRAINT IF EXISTS "Order_user_id_fkey";
 ALTER TABLE "Order" ADD CONSTRAINT "Order_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
--- CreateTableCREATE TABLE public."LineItem" (
+-- CreateTable
+CREATE TABLE public."LineItem" (
     id integer NOT NULL,
     order_id integer,
     user_id integer NOT NULL,

@@ -2,13 +2,13 @@
 import fs from 'fs'
 import yaml from 'js-yaml'
 import pg from 'pg'
-import { pool } from './connect.js'
+import { pgPool } from './connect.js'
 
 async function main() {
   /*
     Read Products *.yml file.
   */
-  const client = await pool.connect()
+  const client = await pgPool.connect()
 
   var yaml_doc
   try {

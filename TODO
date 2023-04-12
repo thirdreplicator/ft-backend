@@ -1,0 +1,9 @@
+
+
+* add a unix timestamp to shoppingCartStore
+
+-- synchronize shoppingCartStore across multiple devices by
+0 shoppingCartStore should attach current time Date.now on every change.
+1. Save to Redis on every change of the shopping cart
+2. save it to redis only if timestamp of shoppingCartStore is  > than redis timestamp or  if redis timestamp is nil
+3. otherwise get the returned value of shoppingCartStore from Redis and set the shoppingCartStore to that value.
