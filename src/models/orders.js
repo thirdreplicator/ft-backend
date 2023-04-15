@@ -1,6 +1,5 @@
 import { pgPool, redisClient } from '../connect.js'
 
-
 const order_status = {
   IN_CART: 'in-cart',
   SUBMITTED: 'submitted',
@@ -11,7 +10,6 @@ const order_status = {
   CANCELLED: 'cancelled',
   CANNOT_FULFILL: 'cannot-fulfill'
 }
-
 
 export const get_orders = (req, resp) => {
   const user_id = 1
