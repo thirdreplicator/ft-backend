@@ -13,7 +13,8 @@ CREATE TABLE public.orders (
     id integer NOT NULL,
     user_id integer NOT NULL,
     status public.order_status,
-    created_at bigint DEFAULT EXTRACT(epoch FROM now()) NOT NULL
+    created_at bigint DEFAULT EXTRACT(epoch FROM now()) NOT NULL,
+    delivery_address_id integer NOT NULL
 );
 
 -- AddForeignKey on orders

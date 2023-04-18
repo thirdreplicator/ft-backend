@@ -5,7 +5,7 @@ app.use(express.json());
 const port = 4000
 import { create_user, signin, authenticateToken } from './models/users.js'
 import { get_products, get_categories, get_options } from './models/products.js'
-import { save_cart_items, get_cart_items, myOrders } from './models/orders.js';
+import { save_cart_items, get_cart_items, myOrders, createOrder } from './models/orders.js';
 import {
   get_delivery_addresses,
   create_delivery_address,
@@ -24,6 +24,9 @@ app.patch('/api/delivery_addresses', authenticateToken, handleDeliveryAddressPat
 app.delete('/api/delivery_addresses/:id', authenticateToken, deleteDeliveryAddress)
 
 app.get('api/orders', authenticateToken, myOrders)
+app.post('/api/orders', authenticateToken, createOrder)
+
+
 app.get('/api/products', get_products)
 app.get('/categories', get_categories)
 app.get('/options', get_options)
