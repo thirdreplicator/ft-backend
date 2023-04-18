@@ -4,8 +4,8 @@
   "description": "REST API for an ecommerce website",
   "main": "index.js",
   "scripts": {
-    "server:dev": "dotenv -e .env.development -- nodemon src/server.js",
-    "server:prod": "dotenv -e .env.production -- node src/server.js",
+    "backend:dev": "dotenv -e .env.development -- nodemon src/server.js",
+    "backend:prod": "dotenv -e .env.production -- node src/server.js",
     "seed:dev": "dotenv -e .env.development -- node src/seeds/seed.js",
     "seed:prod": "dotenv -e .env.production -- node src/seeds/seed.js",
     "seed:options:dev": "dotenv -e .env.development -- node src/seeds/seed_options.js",
