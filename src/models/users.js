@@ -11,7 +11,7 @@ export const create_user = async (req, res) => {
   try {
     await client.query('BEGIN');
     const hashedPassword = await bcrypt.hash(password, saltRounds)
-    const queryText = 'INSERT INTO "User" (name, email, hashed_password, phone_number) VALUES ($1, $2, $3, $4) RETURNING id';
+    const queryText = 'INSERT INTO users (name, email, hashed_password, phone_number) VALUES ($1, $2, $3, $4) RETURNING id';
     const result = await client.query(queryText, [name, email, hashedPassword, phone_number]);
     const loginInfo = collateLoginInfo(res, result.rows[0].id, name)
     await client.query('COMMIT');
@@ -100,7 +100,7 @@ const lookupUser = async (res, email) => {
   const client = await pgPool.connect();
   const query = {
     name: 'fetch-user', // Make this a postgres cached query.
-    text: 'SELECT * FROM  "User" WHERE email  = $1',
+    text: 'SELECT * FROM  users WHERE email  = $1',
     values: [email]
   }
   try {

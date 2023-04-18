@@ -11,17 +11,21 @@ const order_status = {
   CANNOT_FULFILL: 'cannot-fulfill'
 }
 
-export const get_orders = (req, resp) => {
-  const user_id = 1
-  pgPool.query('SELECT * FROM "Order" WHERE "user_id"=$1', [user_id], (error, results) => {
-    if (error) { throw error }
-    resp.status(200).json(results.rows.map(modify))
-  })
+export const myOrders = (req, resp) => {
+  const { userId } = req.user;
+  try {
+    pgPool.query('SELECT * FROM "orders" WHERE "user_id"=$1', [user_id], (error, results) => {
+      if (error) { throw error }
+      resp.status(200).json(results.rows.map(modify))
+    })
+  } catch(e) {
+    resp.status(500).json({message: e.message})
+  }
 }
 
 export const get_cart_items = async (req, res) => {
   const { userId } = req.user;
-
+  
   try {
     const redisKey = `user:${userId}:cart`;
     const cartItems = await redisClient.get(redisKey);
@@ -30,7 +34,7 @@ export const get_cart_items = async (req, res) => {
       const lineItems = JSON.parse(cartItems);
       res.status(200).json(lineItems);
     } else {
-      res.status(200).json([]);
+      res.status(200).json({data: [], updatedAt: 0});
     }
   } catch (e) {
     console.error(e);
